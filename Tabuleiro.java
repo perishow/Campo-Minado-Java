@@ -79,7 +79,7 @@ public class Tabuleiro {
         }
     }
 
-    public void esconderCelulas()
+    public void esconderTabuleiro()
     {
         for(int i = 0; i < 8; i++){
         for(int j = 0; j < 8; j++){
@@ -90,7 +90,7 @@ public class Tabuleiro {
         }
     }
 
-    public void revelarCelulas()
+    public void revelarTabuleiro()
     {
         for(int i = 0; i < 8; i++){
         for(int j = 0; j < 8; j++){
@@ -98,6 +98,42 @@ public class Tabuleiro {
             tabuleiro[i][j].setVisibilidade(true);
 
         }
+        }
     }
+
+    public void revelarCelulas(int linha, int coluna)
+    {
+      
+        //iteração sob as celulas adjacentes
+        for(int i = linha - 1; i <= linha + 1; i++){
+        for(int j = coluna - 1; j <= coluna + 1; j++){
+
+            //checagem se a celula é valida, se é uma mina ou se ja está sendo mostrada
+            if(i >= 0 && i < 8 && j >= 0 && j < 8 && (tabuleiro[i][j].getMina() != true) && (tabuleiro[i][j].getVisibilidade() != true)){
+                tabuleiro[i][j].setVisibilidade(true);
+                if(tabuleiro[i][j].getEstado() == 0 && i >=0 && i < 8 && j >= 0 && j < 8)
+                {
+                    revelarCelulas(i,j);
+                }
+            }            
+        }
+        }
+    }
+
+    public boolean checarMina(int linha, int coluna)
+    {
+        return tabuleiro[linha][coluna].getMina();
+    }
+
+    public void revelarMinas()
+    {
+        for(int i = 0; i < 8 ; i++){
+        for(int j = 0; j < 8; j++){
+            if(tabuleiro[i][j].getMina())
+            {
+                tabuleiro[i][j].setVisibilidade(true);
+            }
+        }
+        }
     }
 }
