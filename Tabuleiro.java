@@ -103,7 +103,13 @@ public class Tabuleiro {
 
     public void revelarCelulas(int linha, int coluna)
     {
-      
+        
+        //if else para não revelar o entorno quando a dica na celula for diferente de 0
+        if(tabuleiro[linha][coluna].getEstado() != 0){
+            tabuleiro[linha][coluna].setVisibilidade(true);
+        }
+
+        else{
         //iteração sob as celulas adjacentes
         for(int i = linha - 1; i <= linha + 1; i++){
         for(int j = coluna - 1; j <= coluna + 1; j++){
@@ -116,6 +122,7 @@ public class Tabuleiro {
                     revelarCelulas(i,j);
                 }
             }            
+        }
         }
         }
     }

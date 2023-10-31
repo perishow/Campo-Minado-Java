@@ -16,7 +16,7 @@ public class Jogo {
 
       tabuleiro.esconderTabuleiro();
 
-
+        
     //loop onde o jogo irá rodar;
     while(jogo)
     {
