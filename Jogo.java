@@ -3,28 +3,34 @@
 import java.util.Scanner;
 
 public class Jogo {
-    public static void main(String[] args){
-        
-    Tabuleiro tabuleiro = new Tabuleiro();
-    Scanner input = new Scanner(System.in);
-    boolean jogo = true;
+
+    private Tabuleiro tabuleiro = new Tabuleiro();
+    private Scanner input = new Scanner(System.in);
+    private boolean jogoEmAndamento = true;
+    private int rodada = 1;
 
     //configurações iniciais do tabuleiro
-      tabuleiro.posicionarMinas();
-      tabuleiro.posicionarDicas();
-      tabuleiro.printTabuleiro();
+  public Jogo()
+  {
+    tabuleiro.posicionarMinas();
+    tabuleiro.posicionarDicas();
+    tabuleiro.printTabuleiro();
 
-      tabuleiro.esconderTabuleiro();
+    tabuleiro.esconderTabuleiro();
+  }
 
-        
+  public void jogar()
+  {
     //loop onde o jogo irá rodar;
-    while(jogo)
+    while(jogoEmAndamento)
     {
         System.out.println("-------------------------");
+        System.out.printf("Rodada : %d%n%n", this.rodada);
+
         tabuleiro.printTabuleiro();
         System.out.println();
         
-        //input
+        //input + ajustes 
         System.out.print("Linha: ");
         int linha = input.nextInt();
         linha -= 1;
@@ -41,7 +47,7 @@ public class Jogo {
           System.out.println();
           tabuleiro.revelarMinas();
           tabuleiro.printTabuleiro();
-          jogo = false;
+          gameOver();
           System.out.println("-------------------------");
         }
         else{
@@ -56,11 +62,23 @@ public class Jogo {
         {
           tabuleiro.revelarCelulas(linha, coluna);
           System.out.println("-------------------------");
+          this.rodada++;
+          if(tabuleiro.checagemDeVitoria())
+          {
+            System.out.printf("PARABENS, VOCE VENCEU!!%nTotal de Rodadas: %d%n%n", this.rodada);
+            tabuleiro.printTabuleiro();
+            gameOver();
+          }
+
         }
         }
     }
     input.close();
 
   }
-
+  
+  public void gameOver()
+  {
+    this.jogoEmAndamento = false;
+  }
 }

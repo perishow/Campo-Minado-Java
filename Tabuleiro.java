@@ -143,4 +143,28 @@ public class Tabuleiro {
         }
         }
     }
+
+    public boolean checagemDeVitoria()
+  {
+    
+        int contador = 0;
+
+        for(int i = 0; i < 8; i++){
+        for(int j = 0; j < 8; j++){
+        if(tabuleiro[i][j].getVisibilidade() && tabuleiro[i][j].getMina() == false)
+        {
+            contador++;
+        }
+        }
+    }
+
+        if(contador == 54)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
