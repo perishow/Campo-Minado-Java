@@ -5,6 +5,7 @@ public class Celula{
     private int estado;
     private boolean visibilidade;
     private String aparencia;
+    private boolean bandeira;
 
     //Construtor
     public Celula()
@@ -12,6 +13,7 @@ public class Celula{
         this.estado = 0;
         this.visibilidade = true;
         this.aparencia = "!";
+        this.bandeira = false;
     }
 
     public void setEstado(int estado)
@@ -39,5 +41,15 @@ public class Celula{
     public boolean getVisibilidade()
     {
         return this.visibilidade;
+    }
+
+    public void setBandeira(boolean bandeira)
+    {
+        this.bandeira = bandeira;
+    }
+
+    public boolean getBandeira()
+    {
+        return this.bandeira;
     }
 }

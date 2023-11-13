@@ -30,48 +30,68 @@ public class Jogo {
         tabuleiro.printTabuleiro();
         System.out.println();
         
-        //input + ajustes 
-        System.out.print("Linha: ");
-        int linha = input.nextInt();
-        linha -= 1;
-        
-        System.out.print("Coluna: ");
-        int coluna = input.nextInt();
-        coluna -= 1;
+      System.out.println("Selecione uma ação\n1 - revelar celula\n2 - posicionar bandeira");
+        int escolha = input.nextInt();
 
-        //checagem de bombas
-        if(tabuleiro.checarMina(linha, coluna))
+        if(escolha == 1)
         {
-          System.out.println();
-          System.out.println(" Achou bomba game over!!");
-          System.out.println();
-          tabuleiro.revelarMinas();
-          tabuleiro.printTabuleiro();
-          gameOver();
-          System.out.println("-------------------------");
-        }
-        else{
-          //revelar as celulas
-        if(linha < 0 || linha > 7 || coluna < 0 || coluna > 7)
-        {
-          System.out.println("jogada invalida");
-          System.out.println("-------------------------");
-          break;
-        }
-        else
-        {
-          tabuleiro.revelarCelulas(linha, coluna);
-          System.out.println("-------------------------");
-          this.rodada++;
-          if(tabuleiro.checagemDeVitoria())
+            //input + ajustes 
+          System.out.print("Linha: ");
+          int linha = input.nextInt();
+          linha -= 1;
+          
+          System.out.print("Coluna: ");
+          int coluna = input.nextInt();
+          coluna -= 1;
+
+          //checagem de bombas
+          if(tabuleiro.checarMina(linha, coluna))
           {
-            System.out.printf("PARABENS, VOCE VENCEU!!%nTotal de Rodadas: %d%n%n", this.rodada);
+            System.out.println();
+            System.out.println(" Achou bomba game over!!");
+            System.out.println();
+            tabuleiro.revelarMinas();
             tabuleiro.printTabuleiro();
             gameOver();
+            System.out.println("-------------------------");
           }
+          else{
+            //revelar as celulas
+          if(linha < 0 || linha > 7 || coluna < 0 || coluna > 7)
+          {
+            System.out.println("jogada invalida");
+            System.out.println("-------------------------");
+            break;
+          }
+          else
+          {
+            tabuleiro.revelarCelulas(linha, coluna);
+            System.out.println("-------------------------");
+            this.rodada++;
+            if(tabuleiro.checagemDeVitoria())
+            {
+              System.out.printf("PARABENS, VOCE VENCEU!!%nTotal de Rodadas: %d%n%n", this.rodada);
+              tabuleiro.printTabuleiro();
+              gameOver();
+            }
 
+          }
+          }
         }
+        else if(escolha == 2)
+        {
+              //input + ajustes 
+          System.out.print("Linha: ");
+          int linha = input.nextInt();
+          linha -= 1;
+          
+          System.out.print("Coluna: ");
+          int coluna = input.nextInt();
+          coluna -= 1;
+
+          tabuleiro.setBandeira(linha, coluna);
         }
+        
     }
     input.close();
 

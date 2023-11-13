@@ -21,8 +21,12 @@ public class Tabuleiro {
         for(int i = 0; i < 8; i++){
         for(int j = 0; j < 8; j++){
 
-            if(tabuleiro[i][j].getVisibilidade() == true){
+            if(tabuleiro[i][j].getVisibilidade()){
             System.out.printf(" %s ", tabuleiro[i][j].getAparenciaCelula());
+            }
+            else if(!(tabuleiro[i][j].getVisibilidade()) && tabuleiro[i][j].getBandeira())
+            {
+                System.out.print(" ! ");
             }
             else{
                 System.out.print(" _ ");
@@ -114,10 +118,13 @@ public class Tabuleiro {
     {
         
         //if else para não revelar o entorno quando a dica na celula for diferente de 0
-        if(tabuleiro[linha][coluna] instanceof VizinhaMina){
+        if(tabuleiro[linha][coluna].getBandeira())
+        {
+            tabuleiro[linha][coluna].setBandeira(false);
+        }
+        else if(tabuleiro[linha][coluna] instanceof VizinhaMina){
             tabuleiro[linha][coluna].setVisibilidade(true);
         }
-
         else{
         //iteração sob as celulas adjacentes
         for(int i = linha - 1; i <= linha + 1; i++){
@@ -175,5 +182,15 @@ public class Tabuleiro {
         {
             return false;
         }
+    }
+
+    public void setBandeira(int linha, int coluna)
+    {
+        tabuleiro[linha][coluna].setBandeira(true);
+    }
+
+    public void tiraBandeira(int linha, int coluna)
+    {
+        tabuleiro[linha][coluna].setBandeira(false);
     }
 }
