@@ -81,4 +81,10 @@ public class Jogo {
   {
     this.jogoEmAndamento = false;
   }
+
+  public void testeJogo()
+  {
+    tabuleiro.printTabuleiro();
+
+  }
 }

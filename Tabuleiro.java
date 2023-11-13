@@ -11,7 +11,7 @@ public class Tabuleiro {
     {
         for(int i = 0; i < 8 ; i++){
         for(int j = 0; j < 8; j++){
-            tabuleiro[i][j] = new Celula();
+            tabuleiro[i][j] = new CelulaVazia();
         }
         }
     }
@@ -43,9 +43,10 @@ public class Tabuleiro {
             int coluna = random.nextInt(8);
 
             //checagem se já há uma mina
-            if(tabuleiro[linha][coluna].getMina() != true)
+            if(tabuleiro[linha][coluna] instanceof Mina != true)
             {
-                tabuleiro[linha][coluna].setMina(true);
+                Mina mina = new Mina();
+                tabuleiro[linha][coluna] = mina;
                 minasRestantes -= 1;
             }
         }
@@ -63,10 +64,10 @@ public class Tabuleiro {
         for(int linha = i - 1; linha <= i + 1; linha++){
         for(int coluna = j - 1; coluna <= j + 1; coluna++){
 
-            //checagem se a celula existe no tabuleiro
-            if(linha >= 0 && linha < 8 && coluna >= 0 && coluna < 8 && (linha != i || coluna != j))
+            //checagem se a celula existe no tabuleiro e se não é uma mina
+            if(linha >= 0 && linha < 8 && coluna >= 0 && coluna < 8 && (linha != i || coluna != j) && !(tabuleiro[i][j] instanceof Mina))
             {
-                if(tabuleiro[linha][coluna].getMina() == true)
+                if(tabuleiro[linha][coluna] instanceof Mina)
                 {
                     contador++;
                 }
@@ -74,7 +75,15 @@ public class Tabuleiro {
 
         }
         }
-        tabuleiro[i][j].setEstado(contador);
+        
+        if(contador > 0){
+        VizinhaMina dica = new VizinhaMina();
+        String contadorString = Integer.toString(contador);
+        
+        dica.setAparencia(contadorString);
+        tabuleiro[i][j] = dica;
+        }
+
         }
         }
     }
@@ -105,7 +114,7 @@ public class Tabuleiro {
     {
         
         //if else para não revelar o entorno quando a dica na celula for diferente de 0
-        if(tabuleiro[linha][coluna].getEstado() != 0){
+        if(tabuleiro[linha][coluna] instanceof VizinhaMina){
             tabuleiro[linha][coluna].setVisibilidade(true);
         }
 
@@ -115,9 +124,9 @@ public class Tabuleiro {
         for(int j = coluna - 1; j <= coluna + 1; j++){
 
             //checagem se a celula é valida, se é uma mina ou se ja está sendo mostrada
-            if(i >= 0 && i < 8 && j >= 0 && j < 8 && (tabuleiro[i][j].getMina() != true) && (tabuleiro[i][j].getVisibilidade() != true)){
+            if(i >= 0 && i < 8 && j >= 0 && j < 8 && !(tabuleiro[i][j] instanceof Mina) && !(tabuleiro[i][j].getVisibilidade())){
                 tabuleiro[i][j].setVisibilidade(true);
-                if(tabuleiro[i][j].getEstado() == 0 && i >=0 && i < 8 && j >= 0 && j < 8)
+                if(tabuleiro[i][j] instanceof CelulaVazia && i >=0 && i < 8 && j >= 0 && j < 8)
                 {
                     revelarCelulas(i,j);
                 }
@@ -129,14 +138,14 @@ public class Tabuleiro {
 
     public boolean checarMina(int linha, int coluna)
     {
-        return tabuleiro[linha][coluna].getMina();
+        return tabuleiro[linha][coluna] instanceof Mina;
     }
 
     public void revelarMinas()
     {
         for(int i = 0; i < 8 ; i++){
         for(int j = 0; j < 8; j++){
-            if(tabuleiro[i][j].getMina())
+            if(tabuleiro[i][j] instanceof Mina)
             {
                 tabuleiro[i][j].setVisibilidade(true);
             }
@@ -151,7 +160,7 @@ public class Tabuleiro {
 
         for(int i = 0; i < 8; i++){
         for(int j = 0; j < 8; j++){
-        if(tabuleiro[i][j].getVisibilidade() && tabuleiro[i][j].getMina() == false)
+        if(tabuleiro[i][j].getVisibilidade() && !(tabuleiro[i][j] instanceof Mina))
         {
             contador++;
         }
