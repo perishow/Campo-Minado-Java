@@ -4,14 +4,26 @@ import java.util.Scanner;
 
 public class Jogo {
 
-    private Tabuleiro tabuleiro = new Tabuleiro();
+    private Tabuleiro tabuleiro = new Tabuleiro(12, 10);
     private Scanner input = new Scanner(System.in);
     private boolean jogoEmAndamento = true;
     private int rodada = 1;
 
     //configurações iniciais do tabuleiro
-  public Jogo()
+  public Jogo(int dificuldade)
   {
+    
+    switch(dificuldade)
+    {
+      case 0: tabuleiro = new TabuleiroFacil();
+                break; 
+        
+      case 1: tabuleiro = new Tabuleiro(8, 10);
+                break;
+        
+      case 2: tabuleiro = new TabuleiroDificil();
+                break;
+    }
     tabuleiro.posicionarMinas();
     tabuleiro.posicionarDicas();
     tabuleiro.printTabuleiro();
@@ -19,7 +31,7 @@ public class Jogo {
     tabuleiro.esconderTabuleiro();
   }
 
-  public void jogar()
+  public void jogoBase()
   {
     //loop onde o jogo irá rodar;
     while(jogoEmAndamento)
@@ -100,11 +112,5 @@ public class Jogo {
   public void gameOver()
   {
     this.jogoEmAndamento = false;
-  }
-
-  public void testeJogo()
-  {
-    tabuleiro.printTabuleiro();
-
   }
 }

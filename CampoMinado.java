@@ -3,8 +3,8 @@
 public class CampoMinado{
     public static void main(String[] args)
     {
-        Jogo campoMinado = new Jogo();
+        Jogo campoMinado = new Jogo(0);
 
-        campoMinado.jogar();
+        campoMinado.jogoBase();
     }
 }
