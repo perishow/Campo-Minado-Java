@@ -4,13 +4,18 @@ import java.util.Random;
 
 public class Tabuleiro {
     
-    private Celula[][] tabuleiro = new Celula[8][8];
-    
-    
-    public Tabuleiro()
+    private Celula[][] tabuleiro;
+    private int dimensao;
+    private int minas;
+
+    public Tabuleiro(int dimensao, int minas)
     {
-        for(int i = 0; i < 8 ; i++){
-        for(int j = 0; j < 8; j++){
+        this.dimensao = dimensao;
+        this.minas = minas;
+        this.tabuleiro = new Celula[dimensao][dimensao];
+
+        for(int i = 0; i < dimensao ; i++){
+        for(int j = 0; j < dimensao; j++){
             tabuleiro[i][j] = new CelulaVazia();
         }
         }
@@ -18,15 +23,15 @@ public class Tabuleiro {
 
     public void printTabuleiro()
     {
-        for(int i = 0; i < 8; i++){
-        for(int j = 0; j < 8; j++){
+        for(int i = 0; i < dimensao; i++){
+        for(int j = 0; j < dimensao; j++){
 
             if(tabuleiro[i][j].getVisibilidade()){
             System.out.printf(" %s ", tabuleiro[i][j].getAparenciaCelula());
             }
             else if(!(tabuleiro[i][j].getVisibilidade()) && tabuleiro[i][j].getBandeira())
             {
-                System.out.print(" ! ");
+                System.out.print(" @ ");
             }
             else{
                 System.out.print(" _ ");
@@ -39,12 +44,13 @@ public class Tabuleiro {
     public void posicionarMinas()
     {
         Random random = new Random();
-        int minasRestantes = 10;
+    
+        int minasRestantes = this.minas;
 
         while(minasRestantes > 0)
         {
-            int linha = random.nextInt(8);
-            int coluna = random.nextInt(8);
+            int linha = random.nextInt(dimensao);
+            int coluna = random.nextInt(dimensao);
 
             //checagem se já há uma mina
             if(tabuleiro[linha][coluna] instanceof Mina != true)
@@ -61,15 +67,15 @@ public class Tabuleiro {
         int contador = 0;
         
         //iteração sob cada celula do tabuleiro
-        for(int i = 0; i < 8 ; i++){
-        for(int j = 0; j < 8 ; j++){
+        for(int i = 0; i < dimensao ; i++){
+        for(int j = 0; j < dimensao ; j++){
             contador = 0;
         //leitura dos ajacentes
         for(int linha = i - 1; linha <= i + 1; linha++){
         for(int coluna = j - 1; coluna <= j + 1; coluna++){
 
             //checagem se a celula existe no tabuleiro e se não é uma mina
-            if(linha >= 0 && linha < 8 && coluna >= 0 && coluna < 8 && (linha != i || coluna != j) && !(tabuleiro[i][j] instanceof Mina))
+            if(linha >= 0 && linha < dimensao && coluna >= 0 && coluna < dimensao && (linha != i || coluna != j) && !(tabuleiro[i][j] instanceof Mina))
             {
                 if(tabuleiro[linha][coluna] instanceof Mina)
                 {
@@ -94,8 +100,8 @@ public class Tabuleiro {
 
     public void esconderTabuleiro()
     {
-        for(int i = 0; i < 8; i++){
-        for(int j = 0; j < 8; j++){
+        for(int i = 0; i < dimensao; i++){
+        for(int j = 0; j < dimensao; j++){
 
             tabuleiro[i][j].setVisibilidade(false);
 
@@ -105,8 +111,8 @@ public class Tabuleiro {
 
     public void revelarTabuleiro()
     {
-        for(int i = 0; i < 8; i++){
-        for(int j = 0; j < 8; j++){
+        for(int i = 0; i < dimensao; i++){
+        for(int j = 0; j < dimensao; j++){
 
             tabuleiro[i][j].setVisibilidade(true);
 
@@ -131,9 +137,9 @@ public class Tabuleiro {
         for(int j = coluna - 1; j <= coluna + 1; j++){
 
             //checagem se a celula é valida, se é uma mina ou se ja está sendo mostrada
-            if(i >= 0 && i < 8 && j >= 0 && j < 8 && !(tabuleiro[i][j] instanceof Mina) && !(tabuleiro[i][j].getVisibilidade())){
+            if(i >= 0 && i < dimensao && j >= 0 && j < dimensao && !(tabuleiro[i][j] instanceof Mina) && !(tabuleiro[i][j].getVisibilidade())){
                 tabuleiro[i][j].setVisibilidade(true);
-                if(tabuleiro[i][j] instanceof CelulaVazia && i >=0 && i < 8 && j >= 0 && j < 8)
+                if(tabuleiro[i][j] instanceof CelulaVazia && i >=0 && i < dimensao && j >= 0 && j < dimensao)
                 {
                     revelarCelulas(i,j);
                 }
@@ -150,8 +156,8 @@ public class Tabuleiro {
 
     public void revelarMinas()
     {
-        for(int i = 0; i < 8 ; i++){
-        for(int j = 0; j < 8; j++){
+        for(int i = 0; i < dimensao ; i++){
+        for(int j = 0; j < dimensao; j++){
             if(tabuleiro[i][j] instanceof Mina)
             {
                 tabuleiro[i][j].setVisibilidade(true);
@@ -165,8 +171,8 @@ public class Tabuleiro {
     
         int contador = 0;
 
-        for(int i = 0; i < 8; i++){
-        for(int j = 0; j < 8; j++){
+        for(int i = 0; i < dimensao; i++){
+        for(int j = 0; j < dimensao; j++){
         if(tabuleiro[i][j].getVisibilidade() && !(tabuleiro[i][j] instanceof Mina))
         {
             contador++;
