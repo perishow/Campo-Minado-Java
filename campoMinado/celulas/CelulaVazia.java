@@ -6,5 +6,5 @@ public class CelulaVazia extends Celula{
         super();
         setAparencia("0");
     }
-    
+
 }

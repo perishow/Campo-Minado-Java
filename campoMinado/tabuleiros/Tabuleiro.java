@@ -57,7 +57,7 @@ public class Tabuleiro {
             int coluna = random.nextInt(dimensao);
 
             //checagem se já há uma mina
-            if(tabuleiro[linha][coluna] instanceof Mina != true)
+            if(!(tabuleiro[linha][coluna].isMina()))
             {
                 Mina mina = new Mina();
                 tabuleiro[linha][coluna] = mina;
@@ -79,9 +79,9 @@ public class Tabuleiro {
         for(int coluna = j - 1; coluna <= j + 1; coluna++){
 
             //checagem se a celula existe no tabuleiro e se não é uma mina
-            if(linha >= 0 && linha < dimensao && coluna >= 0 && coluna < dimensao && (linha != i || coluna != j) && !(tabuleiro[i][j] instanceof Mina))
+            if(linha >= 0 && linha < dimensao && coluna >= 0 && coluna < dimensao && (linha != i || coluna != j) && !(tabuleiro[i][j].isMina()))
             {
-                if(tabuleiro[linha][coluna] instanceof Mina)
+                if(tabuleiro[linha][coluna].isMina())
                 {
                     contador++;
                 }
@@ -135,7 +135,7 @@ public class Tabuleiro {
         else if(tabuleiro[linha][coluna] instanceof VizinhaMina){
             tabuleiro[linha][coluna].setVisibilidade(true);
         }
-        else if(tabuleiro[linha][coluna] instanceof Mina)
+        else if(tabuleiro[linha][coluna].isMina())
         {
             throw new AchouMinaException();
         }
@@ -145,7 +145,7 @@ public class Tabuleiro {
         for(int j = coluna - 1; j <= coluna + 1; j++){
 
             //checagem se a celula é valida, se é uma mina ou se ja está sendo mostrada
-            if(i >= 0 && i < dimensao && j >= 0 && j < dimensao && !(tabuleiro[i][j] instanceof Mina) && !(tabuleiro[i][j].getVisibilidade())){
+            if(i >= 0 && i < dimensao && j >= 0 && j < dimensao && !(tabuleiro[i][j].isMina()) && !(tabuleiro[i][j].getVisibilidade())){
                 tabuleiro[i][j].setVisibilidade(true);
                 if(tabuleiro[i][j] instanceof CelulaVazia && i >=0 && i < dimensao && j >= 0 && j < dimensao)
                 {
@@ -159,14 +159,14 @@ public class Tabuleiro {
 
     public boolean checarMina(int linha, int coluna)
     {
-        return tabuleiro[linha][coluna] instanceof Mina;
+        return tabuleiro[linha][coluna].isMina();
     }
 
     public void revelarMinas()
     {
         for(int i = 0; i < dimensao ; i++){
         for(int j = 0; j < dimensao; j++){
-            if(tabuleiro[i][j] instanceof Mina)
+            if(tabuleiro[i][j].isMina())
             {
                 tabuleiro[i][j].setVisibilidade(true);
             }
@@ -179,7 +179,7 @@ public class Tabuleiro {
 
         for(int i = 0; i < dimensao; i++){
         for(int j = 0; j < dimensao; j++){
-        if(!(tabuleiro[i][j].getVisibilidade()) && !(tabuleiro[i][j] instanceof Mina))
+        if(!(tabuleiro[i][j].getVisibilidade()) && !(tabuleiro[i][j].isMina()))
         {
             return false;
         }

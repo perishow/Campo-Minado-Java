@@ -3,7 +3,7 @@
 package celulas;
 
 
-public class Celula{
+public class Celula extends MOAC{
 
     private int estado;
     private boolean visibilidade;
@@ -32,6 +32,7 @@ public class Celula{
     {
         this.aparencia = aparencia;
     }
+    
     public String getAparenciaCelula()
     {
         return this.aparencia;
@@ -54,5 +55,10 @@ public class Celula{
     public boolean getBandeira()
     {
         return this.bandeira;
+    }
+
+    public boolean isMina()
+    {
+        return false;
     }
 }

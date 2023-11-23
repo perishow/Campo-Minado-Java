@@ -1,6 +1,6 @@
 /**Classe que engloba os modos de jogo
  * V1 - Jogo base
- * 2 - 2 jogadores
+ * V2 - 2 jogadores
  * 3 - modo maluco
  */
 
@@ -21,7 +21,7 @@ public class Jogo {
       this.jogoEmAndamento = true;
   }
 
-  public void jogada(int linha, int coluna)
+  private void jogada(int linha, int coluna)
   {
     //ajuste no input
     linha--;
@@ -42,7 +42,7 @@ public class Jogo {
   }
   
   
-  public void gameOver()
+  private void gameOver()
   {
     this.jogoEmAndamento = false;
   }
@@ -91,7 +91,7 @@ public class Jogo {
         System.out.print("Coluna: ");
         int coluna = input.nextInt();
         coluna--;
-        
+
         tabuleiro.setBandeira(linha, coluna);
       }
 

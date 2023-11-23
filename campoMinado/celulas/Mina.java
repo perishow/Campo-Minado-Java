@@ -6,6 +6,11 @@ public class Mina extends Celula {
         super();
         setAparencia("*");
     }
+
+    public boolean isMina()
+    {
+        return true;
+    }
     
 }
 
