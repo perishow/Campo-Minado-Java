@@ -4,6 +4,6 @@ public class TabuleiroDificil extends Tabuleiro{
     
     public TabuleiroDificil()
     {
-        super(15, 25);
+        super(15, 50);
     }
 }

@@ -2,7 +2,8 @@
 
 package celulas;
 
-abstract class MOAC {
+public interface MOAC {
+
 
     public abstract void setEstado(int estado);
     
@@ -25,5 +26,7 @@ abstract class MOAC {
     public abstract boolean isMina();
 
     public abstract boolean isVizinhaMina();
+
+    public abstract boolean isMaluca();
     
 }

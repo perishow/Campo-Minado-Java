@@ -11,6 +11,7 @@ public class Tabuleiro implements TabuleiroInterface{
     private Celula[][] tabuleiro;
     private int dimensao;
     private int minas;
+    private int maluquice;
 
     public Tabuleiro(int dimensao, int minas)
     {
@@ -23,8 +24,21 @@ public class Tabuleiro implements TabuleiroInterface{
             tabuleiro[i][j] = new CelulaVazia();
         }
         }
+        this.posicionarMinas();
+        this.posicionarDicas();
     }
 
+    public int getDimensao() {
+        return dimensao;
+    }
+
+    public int getMinas() {
+        return minas;
+    }
+
+    public Celula[][] getTabuleiro() {
+        return tabuleiro;
+    }
     public void printTabuleiro()
     {
         for(int i = 0; i < dimensao; i++){
@@ -99,7 +113,7 @@ public class Tabuleiro implements TabuleiroInterface{
         if(contador > 0){
         VizinhaMina dica = new VizinhaMina();
         String contadorString = Integer.toString(contador);
-        
+        dica.setEstado(contador);
         dica.setAparencia(contadorString);
         tabuleiro[i][j] = dica;
         }
@@ -108,44 +122,42 @@ public class Tabuleiro implements TabuleiroInterface{
         }
     }
 
-    public void atualizarDicas()
-    {   
-        //o mesmo que posicionar Dicas, mas sem mostrar as dicas no processo.
-         int contador = 0;
+    public void atualizarDicas() {
+        int contador = 0;
+        
         
         //iteração sob cada celula do tabuleiro
         for(int i = 0; i < dimensao ; i++){
-        for(int j = 0; j < dimensao ; j++){
-            contador = 0;
-        //leitura dos ajacentes
-        for(int linha = i - 1; linha <= i + 1; linha++){
-        for(int coluna = j - 1; coluna <= j + 1; coluna++){
+            for(int j = 0; j < dimensao ; j++){
+                contador = 0;
+                
+                //leitura dos ajacentes
+                for(int linha = i - 1; linha <= i + 1; linha++){
+                    for(int coluna = j - 1; coluna <= j + 1; coluna++){
 
-            //checagem se a celula existe no tabuleiro e se não é uma mina
-            if(linha >= 0 && linha < dimensao && coluna >= 0 && coluna < dimensao && (linha != i || coluna != j) && !(tabuleiro[i][j].isMina()))
-            {
-                if(tabuleiro[linha][coluna].isMina())
-                {
-                    contador++;
+                            //checagem se a celula existe no tabuleiro e se não é uma mina
+                            if(linha >= 0 && linha < dimensao && coluna >= 0 && coluna < dimensao && (linha != i || coluna != j) && !(tabuleiro[i][j].isMina()))
+                            {
+                                if(tabuleiro[linha][coluna].isMina())
+                                {
+                                    contador++;
+                                }
+                            }
+
+                        }
+                    }
+                    
+                if(contador > 0 && !tabuleiro[i][j].isMina()){
+
+                    String contadorString = Integer.toString(contador);
+                    tabuleiro[i][j].setEstado(contador);
+                    tabuleiro[i][j].setAparencia(contadorString);
                 }
+                
             }
-
-        }
-        }
-        
-        if(contador > 0){
-        
-            boolean visibilidadeOriginal = tabuleiro[i][j].getVisibilidade();
-            VizinhaMina dica = new VizinhaMina();
-            String contadorString = Integer.toString(contador);
-
-            dica.setAparencia(contadorString);
-            dica.setVisibilidade(visibilidadeOriginal);
-            tabuleiro[i][j] = dica;
         }
 
-        }
-        }
+        System.out.println("feito");
     }
 
     public void esconderTabuleiro()
@@ -179,18 +191,14 @@ public class Tabuleiro implements TabuleiroInterface{
             throw new ForaDoTabuleiroException();
         }
         
-        if(tabuleiro[linha][coluna].getBandeira())
-        {
-            tabuleiro[linha][coluna].setBandeira(false);
-        }
-        else if(tabuleiro[linha][coluna].isVizinhaMina()){
-            tabuleiro[linha][coluna].setVisibilidade(true);
-        }
-        else if(tabuleiro[linha][coluna].isMina())
+        if(tabuleiro[linha][coluna].isMina())
         {
             throw new AchouMinaException();
         }
-        else{
+        else if(tabuleiro[linha][coluna].isVizinhaMina() || (tabuleiro[linha][coluna].isMaluca() && !tabuleiro[linha][coluna].getAparenciaCelula().equals("0"))){
+            tabuleiro[linha][coluna].setVisibilidade(true);
+        }
+        else if(tabuleiro[linha][coluna].isCelulaVazia()){
         //iteração sob as celulas adjacentes
         for(int i = linha - 1; i <= linha + 1; i++){
         for(int j = coluna - 1; j <= coluna + 1; j++){
@@ -198,6 +206,7 @@ public class Tabuleiro implements TabuleiroInterface{
             //checagem se a celula é valida, se é uma mina ou se ja está sendo mostrada
             if(i >= 0 && i < dimensao && j >= 0 && j < dimensao && !(tabuleiro[i][j].isMina()) && !(tabuleiro[i][j].getVisibilidade())){
                 tabuleiro[i][j].setVisibilidade(true);
+
                 if(tabuleiro[i][j].isCelulaVazia() && i >=0 && i < dimensao && j >= 0 && j < dimensao)
                 {
                     revelarCelulas(i,j);
@@ -256,19 +265,24 @@ public class Tabuleiro implements TabuleiroInterface{
 
     public void posicionarMaluquice(int nivelMaluquice)
     {
+        this.maluquice = nivelMaluquice;
         Random random = new Random();
 
         for(int i = 0; i < this.dimensao; i++)
         for(int j = 0; j < this.dimensao; j++)
         {
         {
-            int chance = random.nextInt(10);
+            int chance = random.nextInt(11); //de 0 a 10
             if(chance <= nivelMaluquice)
             {
                 tabuleiro[i][j].tornarMaluca();
             }
         }
         }
+    }
+
+    public int getMaluquice() {
+        return maluquice;
     }
 
     public boolean celulaMaluca(int linha, int coluna)
