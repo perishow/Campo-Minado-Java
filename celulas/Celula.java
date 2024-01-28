@@ -3,7 +3,7 @@
 package celulas;
 
 
-public class Celula extends MOAC{
+public class Celula implements MOAC{
 
     private int estado;
     private boolean visibilidade;
@@ -18,7 +18,6 @@ public class Celula extends MOAC{
         this.visibilidade = false;
         this.aparencia = "!";
         this.bandeira = false;
-        this.maluquice = false;
     }
 
     public void setEstado(int estado)
@@ -61,7 +60,7 @@ public class Celula extends MOAC{
 
     public boolean isCelulaVazia()
     {
-        return true;
+        return false;
     }
     
     public boolean isMina()
@@ -74,13 +73,11 @@ public class Celula extends MOAC{
         return false;
     }
 
-    public boolean isMaluca()
-    {
+    public boolean isMaluca(){
         return this.maluquice;
     }
 
-    public void tornarMaluca()
-    {
+    public void tornarMaluca(){
         this.maluquice = true;
     }
 }
