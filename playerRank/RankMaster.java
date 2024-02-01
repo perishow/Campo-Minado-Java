@@ -128,10 +128,6 @@ public class RankMaster {
 
     }
 
-    public static void main(String[] args) {
-        new RankMaster(new Jogador("sexo",6969));
-    }
-
     public ArrayList<String> getNomes() {
         return nomes;
     }

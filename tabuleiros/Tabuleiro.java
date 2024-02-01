@@ -156,8 +156,6 @@ public class Tabuleiro implements TabuleiroInterface{
                 
             }
         }
-
-        System.out.println("feito");
     }
 
     public void esconderTabuleiro()

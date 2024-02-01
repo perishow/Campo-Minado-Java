@@ -174,10 +174,6 @@ public class GModosDeJogo extends JFrame implements ActionListener{
         }
 
         ativarMaluquice(checkBoxMaluco.isSelected());
-
-        tabuleiro.revelarTabuleiro();
-        tabuleiro.printTabuleiro();
-        tabuleiro.esconderTabuleiro();
         
         gTabuleiro = new GTabuleiro(tabuleiro, this.jogador, checkBox2P.isSelected());
         gTabuleiro.setVisible(true);
