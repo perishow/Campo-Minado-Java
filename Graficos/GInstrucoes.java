@@ -17,7 +17,8 @@ public class GInstrucoes extends JFrame{
         
         this.setLocation((x/2) - 307, (y/2) - 317);
         this.setSize(615,635);
-        
+        this.setResizable(false);
+
         label = new JLabel(instrucoesIcon);
         label.setHorizontalAlignment(JLabel.CENTER);
         label.setVerticalAlignment(JLabel.CENTER);

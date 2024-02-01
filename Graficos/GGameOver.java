@@ -46,6 +46,7 @@ public class GGameOver extends JFrame implements ActionListener{
         this.setLocation((x/2)-250, (y/2)-100);
         
         this.setSize(500,240);
+        this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         
         labelGameOver = new JLabel("GAME OVER!");

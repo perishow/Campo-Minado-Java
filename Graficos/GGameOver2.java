@@ -39,6 +39,7 @@ public class GGameOver2 extends JFrame implements ActionListener{
 
         this.setLocation((x/2) - 200,(y/2) - 100);
         this.setSize(400,200);
+        this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setIconImage(bomberIcon.getImage());
         this.gTabuleiro = gTabuleiro;
